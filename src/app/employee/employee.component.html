@@ -1,0 +1,116 @@
+<p>employee works!</p>
+
+<h1 *ngIf="visible">{{title}}</h1>
+
+<!-- name has to match for both -->
+<input type="radio" name="topgun" (click)="OnChange(true)">True 
+<input type="radio" name="topgun" (click)="OnChange(false)">False
+
+
+<div *ngIf="IsVisible; then thenBlock; else elseBlock"></div>
+
+<ng-template #thenBlock>
+<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquam, optio.</p>
+</ng-template>
+
+<ng-template #elseBlock>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, quasi iusto!</p>
+</ng-template>
+
+
+<!-- <p *ngIf="IsVisible">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p> -->
+
+<!-- can set <!IsVisible> to set opposite reaction using radio-->
+<!-- <p *ngIf="IsVisible">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio, unde? Nam suscipit nostrum consequatur voluptatibus nihil.
+</p> -->
+
+<!-- dropdown box -->
+<select (change)="SetColor($event)">
+    <option value="">------Select Colour-------</option>
+    <option value="R">Red</option>
+    <option value="O">Orange</option>
+    <option value="Y">Yellow</option>
+    <option value="G">Green</option>
+    <option value="B">Blue</option>
+</select>
+
+
+<div [ngSwitch]="color"> 
+    <div *ngSwitchCase="'R'">
+        <p style="color: red;">Lorem ipsum dolor sit amet consectetur 
+            adipisicing elit. Corporis cupiditate corrupti, voluptatibus quas labore culpa soluta!
+        </p>
+    </div>
+
+    <div *ngSwitchCase="'B'">
+        <p style="color: blue;">Lorem ipsum dolor sit amet consectetur 
+            adipisicing elit. Corporis cupiditate corrupti, voluptatibus quas labore culpa soluta!
+        </p>
+    </div>
+
+    <div *ngSwitchDefault>
+        <p style="color: red;">Lorem ipsum dolor sit amet consectetur 
+            adipisicing elit. Corporis cupiditate corrupti, voluptatibus quas labore culpa soluta!
+        </p>
+    </div>
+</div>
+
+<!-- ngStyle = dynamic in-line Styling -->
+<table [ngStyle]="{'color': (number1>number2)?'red':'green'}" border="1">
+    <thead>
+        <th>S/No</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>First Rec</th>
+        <th>Last Rec</th>
+    </thead>
+    <tbody>
+        <!-- "let ..." = for employee e: Employees -->
+        <tr *ngFor="let employee of Employee; let i = index; first as isFirst; last as isLast; 
+        trackBy: TrackByEmployeeName; even as isEven; odd as isOdd"
+        [ngStyle]="{'color': isEven? 'green': 'orange'}">
+
+            <!-- another 2 options to [ngStyle=""] above -->
+        <!-- [ngClass]="isEven?'color1':'color2'" -->
+        <!-- [ngClass]="GetCSS(isEven)" -->
+        <td>{{i + 1}}</td>
+            <!-- pdf day31, slide 39, titlecase = uppercase for 1 letter, can use percent-->
+            <td>{{employee.Name | uppercase}}</td> 
+            <td [ngStyle]="{'color' : CheckAge(employee.Age)}">{{employee.Age}}</td>
+            <td>{{employee.Gender}}</td>
+            <td>{{isFirst}}</td>
+            <td>{{isLast}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<br><br>
+
+<button (click)="GetMoreEmployee()">Add more employees</button>
+
+<br><br>
+
+<!-- ngClass = use from css as compared to ngStyle -->
+<p [ngClass]="'color1'">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veniam eius vel eum 
+    sint doloribus eveniet minus. Maxime perspiciatis iste inventore praesentium 
+    odio sint voluptatem expedita, sunt cupiditate animi facere debitis.</p>
+
+    <br><br>
+    <div>Sum of 2 numbers: {{ 10 + 20}}</div>
+    <br><br>
+    <div>Sum of 2 numbers: {{ number1 + number2}}</div>
+
+    <br><br>
+
+    <!-- property binding -->
+    <div [innerHTML]="title"></div>
+    <br><br>
+    <button (click)="ShowSomeData()">Show some data</button>
+    <br><br>
+
+    <!-- bi-directional data bind -->
+
+    Enter my name: <input type="text" [value]="myName" (input) = "myName = $any($event.target).value">
+    <br>
+    Updated Name is {{myName}} 
